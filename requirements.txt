@@ -1,0 +1,11 @@
+flask
+pandas
+plotly
+gunicorn
+gdown
+google-api-python-client
+schedule
+apscheduler
+jinja2
+requests
+python-dotenv
