@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Resumen general</h1>
-<p>Aquí se mostrarán los gráficos principales.</p>
-<div id="plot"></div>
+<div id="plot">
+    {{ gastos_mensuales_plot | safe }}
+</div>
 {% endblock %}
