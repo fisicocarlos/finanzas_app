@@ -1,6 +1,6 @@
 import pandas as pd
-
-from app.config.config import GOOGLE_DRIVE_URL_TEMPLATE, logger
+import logging
+from app.config.config import GOOGLE_DRIVE_URL_TEMPLATE
 
 
 def load_data():
@@ -41,5 +41,6 @@ def load_data():
     df['month'] = df['fecha'].dt.to_period('M')
     df['year'] = df['fecha'].dt.to_period('Y')
 
+    logger = logging.getLogger(__name__)
     logger.info("Leidos datos desde google drive")
     return df

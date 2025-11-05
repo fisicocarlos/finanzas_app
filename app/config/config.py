@@ -26,7 +26,7 @@ LOG_DIR = BASE_DIR / "logs"
 LOG_DIR.mkdir(exist_ok=True)
 
 # Logging
-LOG_FILE = LOG_DIR / "app.log"
+LOG_FILE = LOG_DIR / "app.logs"
 LOG_LEVEL = logging.DEBUG if DEBUG else logging.INFO
 logging.basicConfig(
     level=LOG_LEVEL,
@@ -37,4 +37,4 @@ logging.basicConfig(
     ]
 )
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(APP_NAME)
