@@ -1,25 +1,24 @@
 import pandas as pd
 
 
-def gastos_mensuales(df):
-    gastos_mensuales = (
-        df[df["tipo"] == "amount"]
-        .groupby(["month", "categoria"], as_index=False, observed=True)["cantidad"]
-        .sum()
-        .sort_values(["month", "cantidad"], ignore_index=True)
-    )
-    gastos_mensuales["cantidad"] = -gastos_mensuales["cantidad"]
-    gastos_mensuales["month"] = (
-        gastos_mensuales["month"].dt.strftime("%b").str.capitalize()
-    )
+def grouped_movements(df):
+    grouped = df.groupby(
+        ["type", "trip_id", "category_id", pd.Grouper(key="date", freq="ME")]
+    )["amount"].sum()
 
-    totales = (
-        gastos_mensuales.groupby("categoria", as_index=False, observed=True)["cantidad"]
+    return grouped
+
+
+def balance_per_month(df):
+    balance = (
+        df.groupby(["type", pd.Grouper(key="date", freq="ME")])["amount"]
         .sum()
-        .sort_values("cantidad", ascending=False)  # Ascendente → las más grandes abajo
+        .unstack(fill_value=0)
     )
-    orden_categorias = totales["categoria"].tolist()
-    gastos_mensuales["categoria"] = pd.Categorical(
-        gastos_mensuales["categoria"], categories=orden_categorias, ordered=True
-    )
-    return gastos_mensuales
+    balance.loc["total"] = balance.sum()
+    balance.columns = balance.columns.strftime("%B").str.capitalize()
+    return balance
+
+
+def balance_last_month(df):
+    return balance_per_month(df[df["date"] > pd.Timestamp.today().replace(day=1)])

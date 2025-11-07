@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Resumen general</h1>
+
+<div id="section">
+    <h2>Balance Últimos meses</h2>
+    <div id="table">
+        {{ balance_per_month_table | safe }}
+    </div>
+</div>
+
 <div id="plot">
     {{ gastos_mensuales_plot | safe }}
 </div>
