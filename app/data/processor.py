@@ -16,7 +16,7 @@ def balance_per_month(df, lang="es"):
     balance = pd.pivot_table(
         df, values="amount", index="month", columns="type", aggfunc="sum", fill_value=0
     )
-    balance["total"] = balance["expense"] + balance["income"]
+    balance["total"] = balance.get("expense", 0) + balance.get("income", 0)
     # Language support
     translations = {
         k: v.capitalize() for k, v in TRANSLATIONS.get(lang, TRANSLATIONS["en"]).items()
