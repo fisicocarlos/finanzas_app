@@ -7,7 +7,6 @@ def grouped_movements(df):
     grouped = df.groupby(
         ["type", "trip_id", "category_id", pd.Grouper(key="date", freq="ME")]
     )["amount"].sum()
-
     return grouped
 
 
@@ -31,5 +30,10 @@ def balance_per_month(df, lang="es"):
     return balance
 
 
-def balance_last_month(df):
-    return balance_per_month(df[df["date"] > pd.Timestamp.today().replace(day=1)])
+def last_movements(df, n=5, lang="es"):
+    lasts_movements = df[["description", "amount"]].tail(n)
+    translations = {
+        k: v.capitalize() for k, v in TRANSLATIONS.get(lang, TRANSLATIONS["en"]).items()
+    }
+    lasts_movements.rename(columns=translations, inplace=True)
+    return lasts_movements

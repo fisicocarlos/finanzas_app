@@ -27,8 +27,20 @@ LOG_DIR.mkdir(exist_ok=True)
 
 # Translations
 TRANSLATIONS = {
-    "en": {"expense": "expenses", "income": "incomes", "total": "total"},
-    "es": {"expense": "gastos", "income": "ingresos", "total": "total"},
+    "en": {
+        "expense": "expenses",
+        "income": "incomes",
+        "total": "total",
+        "description": "description",
+        "amount": "amount",
+    },
+    "es": {
+        "expense": "gastos",
+        "income": "ingresos",
+        "total": "total",
+        "description": "descripción",
+        "amount": "Importe",
+    },
 }
 
 # Logging

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 
 from app.data.drive_reader import load_data
-from app.data.processor import balance_per_month
+from app.data.processor import balance_per_month, last_movements
 
 bp = Blueprint("dashboard", __name__, url_prefix="/")
 
@@ -10,9 +10,11 @@ bp = Blueprint("dashboard", __name__, url_prefix="/")
 def index():
     df = load_data()
     balance_per_month_table = balance_per_month(df).to_html(index_names=False)
+    last_movements_table = last_movements(df, 5).to_html(index=False)
 
     return render_template(
         "dashboard.html",
         title="Resumen general",
         balance_per_month_table=balance_per_month_table,
+        last_movements_table=last_movements_table,
     )
