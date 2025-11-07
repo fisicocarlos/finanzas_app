@@ -1,18 +1,18 @@
 
 id,name,default_type,color,icon_path,icon_char,description
-1,Comida,expense,#FF7043,,,Supermercado y otros gastos en comida
-2,Multas,expense,#E53935,,󰦶,Multas de tráfico e impuestos
-3,Obligatorios,expense,#8D6E63,,,Gastos fijos anuales
-4,Libros,expense,#5C6BC0,,,Libros
-5,Casa,expense,#6D4C41,,,Gastos de hogar
+1,Casa,expense,#6D4C41,,,Gastos de hogar
+2,Obligatorios,expense,#8D6E63,,,Gastos fijos anuales
+3,Restaurante,expense,#FF7043,,󰡶, Gasto en restaurantes
+4,Gasolina,expense,#FF7043,,󰊘,Gasto en Gasolina
+5,Regalos,expense,#BA68C8,,,Regalos
 6,Ropa,expense,#F06292,,,Compra de ropa
-7,Regalos,expense,#BA68C8,,,Regalos
-8,Nómina,income,#43A047,,,Nómina
-9,Música,income,#1E88E5,,,Ingresos de la música
-10,Repaso,income,#00ACC1,,,Ingresos clases de repaso
-11,Suscripciones,expense,#7E57C2,,,Suscripciones a plataformas online
-12,Videojuegos,expense,#7E57C2,,󰊴,Compra de videojuegos
-13,Bar,expense,#FF7043,,,Gasto en bares y copas
-14,Restaurante,expense,#FF7043,,󰡶, Gasto en restauntes
-15,Gasolina,expense,#00000,,󰊘,Gasto en Gasolina
-16,Efectivo,expense,#2A4023,,,Retirada de efectivo
+7,Efectivo,expense,#2A4023,,,Retirada de efectivo
+8,Comida,expense,#FF7043,,,Supermercado y otros gastos en comida
+9,Bar,expense,#FF7043,,,Gasto en bares y copas
+10,Multas,expense,#E53935,,󰦶,Multas de tráfico e impuestos
+11,Videojuegos,expense,#7E57C2,,󰊴,Compra de videojuegos
+12,Suscripciones,expense,#7E57C2,,,Suscripciones a plataformas online
+13,Libros,expense,#5C6BC0,,,Libros
+14,Nómina,income,#43A047,,,Nómina
+15,Música,income,#1E88E5,,,Ingresos de la música
+16,Repaso,income,#00ACC1,,,Ingresos clases de repaso

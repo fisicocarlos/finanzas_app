@@ -43,6 +43,21 @@ TRANSLATIONS = {
     },
 }
 
+MONTHS_ORDER = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+]
+
 # Logging
 LOG_FILE = LOG_DIR / "app.logs"
 LOG_LEVEL = logging.DEBUG if DEBUG else logging.INFO

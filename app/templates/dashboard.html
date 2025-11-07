@@ -16,7 +16,14 @@
     </div>
 </div>
 
-<div id="plot">
-    {{ gastos_mensuales_plot | safe }}
+<div id="section">
+    <h2>Movimientos por categoría</h2>
+    <div id="table">
+        {{ bar_plot_per_categories_html | safe }}
+    </div>
 </div>
+
+
+
+
 {% endblock %}

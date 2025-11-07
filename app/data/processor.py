@@ -1,12 +1,13 @@
 import pandas as pd
 
 from app.config.config import TRANSLATIONS
+from app.data.drive_reader import load_categories
 
 
 def grouped_movements(df):
     grouped = df.groupby(
         ["type", "trip_id", "category_id", pd.Grouper(key="date", freq="ME")]
-    )["amount"].sum()
+    )[["amount"]].sum()
     return grouped
 
 
@@ -37,3 +38,25 @@ def last_movements(df, n=5, lang="es"):
     }
     lasts_movements.rename(columns=translations, inplace=True)
     return lasts_movements
+
+
+def amounts_per_month_and_category(df):
+    grouped_df = (
+        df[df["type"] == "expense"]
+        .groupby(["category_id", pd.Grouper(key="date", freq="ME")], as_index=False)[
+            ["amount"]
+        ]
+        .sum()
+        .sort_values(["date", "category_id"], ignore_index=True)
+    )
+    categories = load_categories()
+    amounts = pd.merge(
+        grouped_df,
+        categories,
+        how="left",
+        left_on="category_id",
+        right_on="id",
+    ).rename(columns={"name": "category"})
+    amounts["amount"] = -amounts["amount"]
+    amounts["month"] = amounts["date"].dt.strftime("%B").str.capitalize()
+    return amounts

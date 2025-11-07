@@ -1,36 +1,40 @@
-import pandas as pd
 import plotly.express as px
 
+from app.config.config import MONTHS_ORDER
+from app.data.processor import amounts_per_month_and_category
 
-def gastos_mensuales(df):
-    gastos_mensuales = (
-        df[df["tipo"] == "gasto"]
-        .groupby(["month", "categoria"], as_index=False, observed=True)["cantidad"]
-        .sum()
-        .sort_values(["month", "cantidad"], ignore_index=True)
-    )
-    gastos_mensuales["cantidad"] = -gastos_mensuales["cantidad"]
-    gastos_mensuales["month"] = (
-        gastos_mensuales["month"].dt.strftime("%b").str.capitalize()
-    )
 
-    totales = (
-        gastos_mensuales.groupby("categoria", as_index=False, observed=True)["cantidad"]
-        .sum()
-        .sort_values("cantidad", ascending=False)
-    )
-    orden_categorias = totales["categoria"].tolist()
-    gastos_mensuales["categoria"] = pd.Categorical(
-        gastos_mensuales["categoria"], categories=orden_categorias, ordered=True
-    )
+def bar_plot_per_categories(df):
+    data = amounts_per_month_and_category(df)
+
+    color_discrete_map = dict(zip(data["category"], data["color"]))
+    category_orders = {
+        "category_id": [str(i) for i in range(data["category_id"].nunique())],
+        "month": MONTHS_ORDER,
+    }
 
     fig = px.bar(
-        gastos_mensuales,
+        data,
         x="month",
-        y="cantidad",
-        color="categoria",
+        y="amount",
+        color="category_id",
         text_auto=True,
         title="Gastos",
-        labels={"month": "Mes", "cantidad": "Gastos", "categoria": "Categoria"},
+        labels={"month": "Mes", "amount": "Gastos", "category": "Categoría"},
+        color_discrete_map=color_discrete_map,
+        category_orders=category_orders,
+        hover_name="category",
+        hover_data={
+            "category_id": False,
+            "category": False,
+            "amount": ":.0f",
+            "month": False,
+        },
     )
+    legend_labels = {
+        str(row.category_id): f"{row.icon_char} {row.category}"
+        for _, row in data.drop_duplicates("category_id").iterrows()
+    }
+    fig.for_each_trace(lambda t: t.update(name=legend_labels.get(t.name, t.name)))
+    fig.update_layout(legend_title_text="Categorías")
     return fig.to_html(full_html=False, include_plotlyjs="cdn")
