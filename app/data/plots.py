@@ -37,4 +37,5 @@ def bar_plot_per_categories(df):
     }
     fig.for_each_trace(lambda t: t.update(name=legend_labels.get(t.name, t.name)))
     fig.update_layout(legend_title_text="Categorías")
+    fig.update_layout(font=dict(family="SauceCodeProNF, monospace"))
     return fig.to_html(full_html=False, include_plotlyjs="cdn")

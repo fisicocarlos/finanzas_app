@@ -1,3 +1,10 @@
+@font-face {
+    font-family: "SauceCodeProNF";
+    src: url("../fonts/SourceCodePro/SauceCodeProNerdFont-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
