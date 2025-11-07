@@ -25,6 +25,12 @@ DATA_DIR = BASE_DIR / "data"
 LOG_DIR = BASE_DIR / "logs"
 LOG_DIR.mkdir(exist_ok=True)
 
+# Translations
+TRANSLATIONS = {
+    "en": {"expense": "expenses", "income": "incomes", "total": "total"},
+    "es": {"expense": "gastos", "income": "ingresos", "total": "total"},
+}
+
 # Logging
 LOG_FILE = LOG_DIR / "app.logs"
 LOG_LEVEL = logging.DEBUG if DEBUG else logging.INFO
