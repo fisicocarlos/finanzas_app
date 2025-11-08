@@ -16,3 +16,5 @@ id,name,default_type,color,icon_path,icon_char,description
 14,Nómina,income,#43A047,,,Nómina
 15,Música,income,#1E88E5,,,Ingresos de la música
 16,Repaso,income,#00ACC1,,,Ingresos clases de repaso
+17,Otros ingresos,income,#00ACC1,,,Otros ingresos
+18,Otros gastos,expense,#11E113,,,Otros gastos
