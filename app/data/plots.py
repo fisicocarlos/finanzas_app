@@ -74,6 +74,9 @@ def pie_plot_per_categories(df, start=pd.Timestamp.today().replace(day=1)):
         textposition="inside",
         textfont_size=14,
         hovertemplate="<b>%{label}</b>%{customdata[0]}<br>Importe: €%{value:.2f}<br>Porcentaje: %{percent}<extra></extra>",
+        hoverlabel=dict(
+            font=dict(family="SauceCodeProNF, monospace", size=12, color="black")
+        ),
     )
 
     fig.for_each_trace(lambda t: t.update(name=legend_labels.get(t.name, t.name)))
