@@ -87,6 +87,8 @@ def pie_plot_per_categories(df, start=pd.Timestamp.today().replace(day=1)):
         color_discrete_map=color_map,
         labels={"category": "Categoría", "amount": "Cantidad"},
         title=start.strftime("%B").capitalize(),
+        width=600,
+        height=400,
     )
 
     fig.update_layout(
