@@ -19,6 +19,14 @@ GOOGLE_DRIVE_URL_TEMPLATE = (
     "format=csv&id={sheet_id}&gid={{gid}}"
 ).format(sheet_id=GOOGLE_DRIVE_FILE_ID)
 
+# PostgreSQL
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = os.getenv("DB_PORT")
+DB_NAME = os.getenv("DB_NAME")
+
+
 # Project paths
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
