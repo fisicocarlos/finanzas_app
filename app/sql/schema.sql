@@ -1,3 +1,11 @@
+CREATE TABLE IF NOT EXISTS "types" (
+    "type_id" SERIAL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "date_created" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "date_modified" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "notes" TEXT
+);
+
 CREATE TABLE categories (
     "category_id" SERIAL PRIMARY KEY,
     "name" TEXT NOT NULL,
@@ -8,7 +16,7 @@ CREATE TABLE categories (
     "description" TEXT,
     "notes" TEXT,
     "date_created" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "date_modified" TIMESTAMP,
+    "date_modified" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (type_id_default) REFERENCES types(type_id) ON DELETE SET NULL
 );
 
@@ -20,16 +28,9 @@ CREATE TABLE IF NOT EXISTS "trips" (
     "description" TEXT,
     "color" TEXT,
     "date_created" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "date_modified" TIMESTAMP
+    "date_modified" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS "types" (
-    "type_id" SERIAL PRIMARY KEY,
-    "name" TEXT NOT NULL,
-    "date_created" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "date_modified" TIMESTAMP,
-    "notes" TEXT
-);
 
 CREATE TABLE IF NOT EXISTS "transactions" (
     "id" SERIAL PRIMARY KEY,
@@ -41,7 +42,7 @@ CREATE TABLE IF NOT EXISTS "transactions" (
     "trip_id" BIGINT,
     "notes" TEXT,
     "date_created" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "date_modified" TIMESTAMP,
+    "date_modified" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY("trip_id") REFERENCES "trips"("trip_id") ON UPDATE NO ACTION ON DELETE SET NULL,
     FOREIGN KEY("category_id") REFERENCES "categories"("category_id") ON UPDATE NO ACTION ON DELETE SET NULL,
     FOREIGN KEY("type_id") REFERENCES "types"("type_id") ON UPDATE NO ACTION ON DELETE NO ACTION
