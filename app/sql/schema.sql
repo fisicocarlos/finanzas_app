@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS "types" (
     "type_id" SERIAL PRIMARY KEY,
-    "name" TEXT NOT NULL,
+    "name" TEXT NOT NULL UNIQUE,
     "date_created" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "date_modified" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "notes" TEXT
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS "types" (
 
 CREATE TABLE categories (
     "category_id" SERIAL PRIMARY KEY,
-    "name" TEXT NOT NULL,
+    "name" TEXT NOT NULL UNIQUE,
     "type_id_default" BIGINT,
     "color" TEXT,
     "icon_path" TEXT,
@@ -22,7 +22,7 @@ CREATE TABLE categories (
 
 CREATE TABLE IF NOT EXISTS "trips" (
     "trip_id" SERIAL PRIMARY KEY,
-    "name" TEXT NOT NULL,
+    "name" TEXT NOT NULL UNIQUE,
     "date_start" DATE,
     "date_end" DATE,
     "description" TEXT,
@@ -57,6 +57,10 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE TRIGGER trg_update_types
+BEFORE UPDATE ON types
+FOR EACH ROW
+EXECUTE FUNCTION update_date_modified();
 
 CREATE TRIGGER trg_update_categories
 BEFORE UPDATE ON categories
@@ -65,11 +69,6 @@ EXECUTE FUNCTION update_date_modified();
 
 CREATE TRIGGER trg_update_trips
 BEFORE UPDATE ON trips
-FOR EACH ROW
-EXECUTE FUNCTION update_date_modified();
-
-CREATE TRIGGER trg_update_types
-BEFORE UPDATE ON types
 FOR EACH ROW
 EXECUTE FUNCTION update_date_modified();
 
