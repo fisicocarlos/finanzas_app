@@ -7,7 +7,7 @@ from app.config.config import GOOGLE_DRIVE_URL_TEMPLATE
 from app.data.DatabaseManager import PostgresDB
 
 
-def fetch_and_store_transactions():
+def sync_transactions():
     """
     Fetches transaction data from Google Drive CSV files, processes and merges it with categories and trips from the database,
     and upserts the resulting transactions into the 'transactions' table in the database.
