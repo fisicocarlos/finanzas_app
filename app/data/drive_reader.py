@@ -1,5 +1,6 @@
 import logging
 
+import numpy as np
 import pandas as pd
 
 from app.config.config import GOOGLE_DRIVE_URL_TEMPLATE
@@ -28,18 +29,23 @@ def load_data():
     ).dropna(how="all")
     ingresos["type"] = "income"
     df = pd.concat([gastos, ingresos]).sort_values("date").reset_index()
-    df["trip"] = df["trip"].fillna("not-a-trip")
     logger.info("Read data from google drive")
 
     # Join with categories and trips
     with PostgresDB() as db:
         categories = db.fetch_table("categories")
         trips = db.fetch_table("trips")
+        types = db.fetch_table("types")
 
-    df["trip_id"] = df.merge(trips, how="left", left_on="trip", right_on="name")["id"]
+    df["trip_id"] = df.merge(trips, how="left", left_on="trip", right_on="name")[
+        "id"
+    ].replace({np.nan: None})
     df["category_id"] = df.merge(
         categories, how="left", left_on="category", right_on="name"
-    )["id"]
+    )["id"].astype("int")
+    df["type_id"] = df.merge(types, how="left", left_on="type", right_on="name")[
+        "id"
+    ].astype("int")
     if logger.isEnabledFor(logging.DEBUG):
         missing_categories = df.loc[df["category_id"].isna(), "category"].unique()
         if len(missing_categories):
@@ -48,16 +54,16 @@ def load_data():
                 ", ".join(map(str, missing_categories)),
             )
 
-    return df[
-        [
-            "date",
-            "description",
-            "type",
-            "category",
-            "category_id",
-            "amount",
-            "trip",
-            "trip_id",
-            "notes",
-        ]
+    df = df[
+        ["date", "description", "type_id", "amount", "category_id", "trip_id", "notes"]
     ]
+    df = df.where(pd.notna(df), None)
+    with PostgresDB() as db:
+        db.upsert_df(
+            df,
+            "transactions",
+            ["date", "description"],
+            ["category_id", "type_id", "amount", "trip_id", "notes"],
+        )
+    logger.info(f"Successfully inserted {len(df)} rows into the 'transactions' table")
+    return

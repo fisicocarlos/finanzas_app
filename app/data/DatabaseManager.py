@@ -1,8 +1,13 @@
+import logging
+
 import pandas as pd
 import psycopg
 from psycopg import sql
 
 from app.config import config
+
+
+logger = logging.getLogger(__name__)
 
 
 class PostgresDB:
@@ -35,9 +40,42 @@ class PostgresDB:
                 return cur.fetchone()
             return cur.fetchall()
 
-    def fetch(self, query, params=None):
-        return pd.read_sql_query(query, self.conn, params=params)
+    def fetch(self, query, params=None, parse_dates=None):
+        return pd.read_sql_query(
+            query, self.conn, params=params, parse_dates=parse_dates
+        )
 
-    def fetch_table(self, table):
+    def fetch_table(self, table, parse_dates=None):
         query = sql.SQL("SELECT * FROM {table}").format(table=sql.Identifier(table))
         return self.fetch(query.as_string(self.conn), params=None)
+
+    def upsert_df(self, df, table, conflict_columns, update_columns):
+        if df.empty:
+            return
+
+        with self.conn.cursor() as cur:
+            for _, row in df.iterrows():
+                columns = list(df.columns)
+                values = [row[col] for col in columns]
+                insert_stmt = sql.SQL(
+                    "INSERT INTO {table} ({fields}) VALUES ({placeholders})"
+                ).format(
+                    table=sql.Identifier(table),
+                    fields=sql.SQL(", ").join(map(sql.Identifier, columns)),
+                    placeholders=sql.SQL(", ").join(sql.Placeholder() * len(columns)),
+                )
+                set_clause = sql.SQL(", ").join(
+                    sql.SQL("{} = EXCLUDED.{}").format(
+                        sql.Identifier(col), sql.Identifier(col)
+                    )
+                    for col in update_columns
+                )
+                conflict_stmt = sql.SQL(
+                    " ON CONFLICT ({conflict}) DO UPDATE SET {set_clause}"
+                ).format(
+                    conflict=sql.SQL(", ").join(map(sql.Identifier, conflict_columns)),
+                    set_clause=set_clause,
+                )
+                query = insert_stmt + conflict_stmt
+                cur.execute(query, values)
+            self.conn.commit()
