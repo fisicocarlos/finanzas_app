@@ -1,7 +1,7 @@
 import pandas as pd
 
 from app.config.config import TRANSLATIONS
-from app.data.drive_reader import load_categories
+from app.data.DatabaseManager import PostgresDB
 
 
 def grouped_movements(df):
@@ -49,7 +49,10 @@ def amounts_per_month_and_category(df):
         .sum()
         .sort_values(["date", "category_id"], ignore_index=True)
     )
-    categories = load_categories()
+
+    with PostgresDB() as db:
+        categories = db.fetch_table("categories")
+
     amounts = pd.merge(
         grouped_df,
         categories,

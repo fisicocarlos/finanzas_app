@@ -3,14 +3,7 @@ import logging
 import pandas as pd
 
 from app.config.config import GOOGLE_DRIVE_URL_TEMPLATE
-
-
-def load_categories():
-    return pd.read_csv("app/static/tables/categories.csv", dtype={"id": str})
-
-
-def load_trips():
-    return pd.read_csv("app/static/tables/trips.csv", dtype={"id": str})
+from app.data.DatabaseManager import PostgresDB
 
 
 def load_data():
@@ -39,8 +32,10 @@ def load_data():
     logger.info("Read data from google drive")
 
     # Join with categories and trips
-    categories = load_categories()
-    trips = load_trips()
+    with PostgresDB() as db:
+        categories = db.fetch_table("categories")
+        trips = db.fetch_table("trips")
+
     df["trip_id"] = df.merge(trips, how="left", left_on="trip", right_on="name")["id"]
     df["category_id"] = df.merge(
         categories, how="left", left_on="category", right_on="name"

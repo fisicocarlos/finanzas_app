@@ -1,3 +1,4 @@
+pre-commit 
 flask
 pandas
 plotly
@@ -10,3 +11,6 @@ jinja2
 requests
 python-dotenv
 ruff
+psycopg[binary]
+psycopg
+
