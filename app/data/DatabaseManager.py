@@ -47,7 +47,9 @@ class PostgresDB:
 
     def fetch_table(self, table, parse_dates=None):
         query = sql.SQL("SELECT * FROM {table}").format(table=sql.Identifier(table))
-        return self.fetch(query.as_string(self.conn), params=None)
+        return self.fetch(
+            query.as_string(self.conn), params=None, parse_dates=parse_dates
+        )
 
     def upsert_df(self, df, table, conflict_columns, update_columns):
         if df.empty:
