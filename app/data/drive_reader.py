@@ -7,7 +7,14 @@ from app.config.config import GOOGLE_DRIVE_URL_TEMPLATE
 from app.data.DatabaseManager import PostgresDB
 
 
-def load_data():
+def fetch_and_store_transactions():
+    """
+    Fetches transaction data from Google Drive CSV files, processes and merges it with categories and trips from the database,
+    and upserts the resulting transactions into the 'transactions' table in the database.
+
+    The function reads expenses and income data, matches categories and trips, and logs any missing categories.
+    No parameters are required, and nothing is returned.
+    """
     logger = logging.getLogger(__name__)
 
     columns = ["date", "description", "category", "amount", "notes", "trip"]
