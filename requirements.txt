@@ -13,4 +13,4 @@ python-dotenv
 ruff
 psycopg[binary]
 psycopg
-SQLAlchemy
+
