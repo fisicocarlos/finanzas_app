@@ -2,8 +2,9 @@ import logging
 
 import numpy as np
 import pandas as pd
+from sqlalchemy import create_engine
 
-from app.config.config import GOOGLE_DRIVE_URL_TEMPLATE
+from app.config.config import GOOGLE_DRIVE_URL_TEMPLATE, SQLALCHEMY_DATABASE_URI
 from app.data.DatabaseManager import PostgresDB
 
 
@@ -38,11 +39,22 @@ def sync_transactions():
     df = pd.concat([gastos, ingresos]).sort_values("date").reset_index()
     logger.info("Read data from google drive")
 
-    # Join with categories and trips
-    with PostgresDB() as db:
-        categories = db.fetch_table("categories")
-        trips = db.fetch_table("trips")
-        types = db.fetch_table("types")
+    engine = create_engine(SQLALCHEMY_DATABASE_URI)
+    categories = pd.read_sql(
+        "SELECT * FROM categories",
+        engine,
+        parse_dates=["date_created", "date_modified"],
+    )
+    trips = pd.read_sql(
+        "SELECT * FROM categories",
+        engine,
+        parse_dates=["date_start", "date_end", "date_created", "date_modified"],
+    )
+    types = pd.read_sql(
+        "SELECT * FROM categories",
+        engine,
+        parse_dates=["date_created", "date_modified"],
+    )
 
     df["trip_id"] = df.merge(trips, how="left", left_on="trip", right_on="name")[
         "id"
