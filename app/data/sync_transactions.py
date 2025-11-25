@@ -1,11 +1,9 @@
 import logging
 
-import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
 
 from app.config.config import GOOGLE_DRIVE_URL_TEMPLATE, SQLALCHEMY_DATABASE_URI
-from app.data.DatabaseManager import PostgresDB
 
 
 def sync_transactions():
@@ -46,25 +44,23 @@ def sync_transactions():
         parse_dates=["date_created", "date_modified"],
     )
     trips = pd.read_sql(
-        "SELECT * FROM categories",
+        "SELECT * FROM trips",
         engine,
         parse_dates=["date_start", "date_end", "date_created", "date_modified"],
     )
     types = pd.read_sql(
-        "SELECT * FROM categories",
+        "SELECT * FROM types",
         engine,
         parse_dates=["date_created", "date_modified"],
     )
 
     df["trip_id"] = df.merge(trips, how="left", left_on="trip", right_on="name")[
         "id"
-    ].replace({np.nan: None})
+    ].astype("Int64")
     df["category_id"] = df.merge(
         categories, how="left", left_on="category", right_on="name"
     )["id"].astype("int")
-    df["type_id"] = df.merge(types, how="left", left_on="type", right_on="name")[
-        "id"
-    ].astype("int")
+    df["type_id"] = df.merge(types, how="left", left_on="type", right_on="name")["id"]
     if logger.isEnabledFor(logging.DEBUG):
         missing_categories = df.loc[df["category_id"].isna(), "category"].unique()
         if len(missing_categories):
@@ -76,13 +72,11 @@ def sync_transactions():
     df = df[
         ["date", "description", "type_id", "amount", "category_id", "trip_id", "notes"]
     ]
+
     df = df.where(pd.notna(df), None)
-    with PostgresDB() as db:
-        db.upsert_df(
-            df,
-            "transactions",
-            ["date", "description"],
-            ["category_id", "type_id", "amount", "trip_id", "notes"],
-        )
+
+    # TODO not replace entire database, only update new fields
+    df.to_sql("transactions", engine, index=False, if_exists="replace")
+
     logger.info(f"Successfully inserted {len(df)} rows into the 'transactions' table")
     return
