@@ -1,4 +1,4 @@
-pre-commit 
+pre-commit
 flask
 pandas
 plotly
@@ -13,4 +13,3 @@ python-dotenv
 ruff
 psycopg[binary]
 psycopg
-
