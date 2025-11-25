@@ -1,5 +1,5 @@
 from app import create_app
-from app.data.sync_transactions import sync_transactions
+from app.services.sync_transactions import sync_transactions
 
 sync_transactions()
 app = create_app()
