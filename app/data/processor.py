@@ -1,7 +1,10 @@
 import pandas as pd
+from sqlalchemy import func
 
-from app.config.config import TRANSLATIONS
 from app import db
+from app.config.config import TRANSLATIONS
+from app.models.transactions import Transaction
+from app.models.trips import Trip
 
 
 def grouped_movements(df):
@@ -68,20 +71,20 @@ def amounts_per_month_and_category(df):
 
 
 def trips_table():
-    sql = """SELECT
-	TR.NAME AS TRIP_NAME,
-	TR.DATE_START,
-	TR.DATE_END,
-	SUM(TRX.AMOUNT) AS TOTAL_AMOUNT
-FROM
-	TRANSACTIONS TRX
-	JOIN TRIPS TR ON TRX.TRIP_ID = TR.ID
-GROUP BY
-	TR.ID,
-	TR.NAME,
-	TR.DATE_START,
-	TR.DATE_END;"""
-    return pd.read_sql(sql, db.engine, parse_dates=["date_start", "date_end"]).rename(
+    query = (
+        db.session.query(
+            Trip.name.label("trip_name"),
+            Trip.date_start,
+            Trip.date_end,
+            func.sum(Transaction.amount).label("total_amount"),
+        )
+        .join(Transaction, Transaction.trip_id == Trip.id)
+        .group_by(Trip.id, Trip.name, Trip.date_start, Trip.date_end)
+        .order_by(Trip.date_start.desc())
+    )
+    return pd.read_sql(
+        query.statement, db.engine, parse_dates=["date_start", "date_end"]
+    ).rename(
         columns={
             "trip_name": "Nombre",
             "date_start": "Inicio",
