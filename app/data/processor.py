@@ -1,7 +1,7 @@
 import pandas as pd
 
-from app import db
 from app.config.config import TRANSLATIONS
+from app import db
 
 
 def grouped_movements(df):
@@ -65,3 +65,27 @@ def amounts_per_month_and_category(df):
     amounts["amount"] = -amounts["amount"]
     amounts["month"] = amounts["date"].dt.strftime("%B").str.capitalize()
     return amounts
+
+
+def trips_table():
+    sql = """SELECT
+	TR.NAME AS TRIP_NAME,
+	TR.DATE_START,
+	TR.DATE_END,
+	SUM(TRX.AMOUNT) AS TOTAL_AMOUNT
+FROM
+	TRANSACTIONS TRX
+	JOIN TRIPS TR ON TRX.TRIP_ID = TR.ID
+GROUP BY
+	TR.ID,
+	TR.NAME,
+	TR.DATE_START,
+	TR.DATE_END;"""
+    return pd.read_sql(sql, db.engine, parse_dates=["date_start", "date_end"]).rename(
+        columns={
+            "trip_name": "Nombre",
+            "date_start": "Inicio",
+            "date_end": "Fin",
+            "total_amount": "Total gastado",
+        }
+    )

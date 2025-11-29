@@ -18,10 +18,10 @@ def create_app():
     app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
     db.init_app(app)
 
-    from app.routes import categorias, dashboard, viajes
+    from app.routes import categorias, dashboard, trips
 
     app.register_blueprint(dashboard.bp)
-    app.register_blueprint(viajes.bp)
+    app.register_blueprint(trips.bp)
     app.register_blueprint(categorias.bp)
 
     return app

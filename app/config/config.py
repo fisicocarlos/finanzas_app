@@ -45,13 +45,21 @@ TRANSLATIONS = {
         "total": "total",
         "description": "description",
         "amount": "amount",
+        "trip_name": "trip_name",
+        "date_start": "date_start",
+        "date_end": "date_end",
+        "total_amount": "total_amount",
     },
     "es": {
         "expense": "gastos",
         "income": "ingresos",
         "total": "total",
         "description": "descripción",
-        "amount": "Importe",
+        "amount": "importe",
+        "trip_name": "viaje",
+        "date_start": "fecha inicio",
+        "date_end": "fecha fin",
+        "total_amount": "importe total",
     },
 }
 
