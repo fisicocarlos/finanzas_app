@@ -4,29 +4,34 @@ from flask import Blueprint, render_template
 from app import db
 from app.data.plots import bar_plot_per_categories, pie_plot_per_categories
 from app.data.processor import balance_per_month, last_movements
+from app.models.categories import Category
+from app.models.transactions import Transaction
+from app.models.trips import Trip
+from app.models.types import Type
 
 bp = Blueprint("dashboard", __name__, url_prefix="/")
 
 
 @bp.route("/")
 def index():
-    sql = """SELECT
-                T.DATE,
-                T.DESCRIPTION,
-                TY.NAME AS TYPE,
-                C.NAME AS CATEGORY,
-                C.ID AS CATEGORY_ID,
-                T.AMOUNT,
-                TRIPS.name AS trip,
-                trips.id as trip_id,
-                T.NOTES
-                FROM
-                TRANSACTIONS T
-                LEFT JOIN TYPES TY ON T.TYPE_ID = TY.ID
-                LEFT JOIN CATEGORIES C ON T.CATEGORY_ID = C.ID
-                LEFT JOIN TRIPS ON T.TRIP_ID = TRIPS.ID;"""
-
-    df = pd.read_sql(sql, db.engine, parse_dates=["date"])
+    query = (
+        db.session.query(
+            Transaction.date,
+            Transaction.description,
+            Type.name.label("type"),
+            Category.name.label("category"),
+            Category.id.label("category_id"),
+            Transaction.amount,
+            Trip.name.label("trip"),
+            Trip.id.label("trip_id"),
+            Transaction.notes,
+        )
+        .outerjoin(Type, Transaction.type_id == Type.id)
+        .outerjoin(Category, Transaction.category_id == Category.id)
+        .outerjoin(Trip, Transaction.trip_id == Trip.id)
+        .order_by(Transaction.date.desc())
+    )
+    df = pd.read_sql(query.statement, db.engine, parse_dates=["date"])
 
     balance_per_month_table = balance_per_month(df).to_html(index_names=False)
     last_movements_table = last_movements(df, 5).to_html(index=False)
