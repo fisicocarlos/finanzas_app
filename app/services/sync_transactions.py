@@ -80,3 +80,7 @@ def sync_transactions():
 
     logger.info(f"Successfully inserted {len(df)} rows into the 'transactions' table")
     return
+
+
+if __name__ == "__main__":
+    sync_transactions()

@@ -3,6 +3,7 @@ from sqlalchemy import func
 
 from app import db
 from app.config.config import TRANSLATIONS
+from app.models.categories import Category
 from app.models.transactions import Transaction
 from app.models.trips import Trip
 
@@ -92,3 +93,23 @@ def trips_table():
             "total_amount": "Total gastado",
         }
     )
+
+
+def categories_table():
+    query = db.session.query(
+        Category.name.label("category_name"),
+        Category.color,
+        Category.icon_path,
+        Category.icon_char,
+    ).order_by(Category.name)
+    return (
+        pd.read_sql(query.statement, db.engine)
+        .rename(
+            columns={
+                "category_name": "Categoría",
+            }
+        )
+        .style.apply(
+            lambda row: [f"background-color: {row['color']}"] * len(row), axis=1
+        )
+    ).to_html()
