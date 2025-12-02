@@ -8,7 +8,6 @@ bp = Blueprint("categorias", __name__, url_prefix="/categorias")
 @bp.route("/")
 def index():
     categories_table_html = categories_table()
-    print(categories_table_html)
     return render_template(
         "categories.html",
         title="Gastos por categoría",
