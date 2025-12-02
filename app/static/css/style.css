@@ -77,6 +77,13 @@ h1 {
   grid-column: 1 / -1;
 }
 
+.section .table {
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+}
+
+
 @media (max-width: 968px) {
   .dashboard-grid {
     grid-template-columns: 1fr;
