@@ -9,11 +9,12 @@ body {
   font-family: SauceCodeProNF, sans-serif;
   margin: 0;
   padding: 0;
-  background: #f5f5f5;
+  background: #1a1a1a;
+  color: #e0e0e0;
 }
 
 nav {
-  background: #004aad;
+  background: #0d47a1;
   color: white;
   padding: 1em 2em;
   position: fixed;
@@ -22,6 +23,7 @@ nav {
   right: 0;
   z-index: 1000;
   transition: transform 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 nav.hidden {
@@ -38,7 +40,7 @@ nav a {
 }
 
 nav a:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 main {
@@ -48,7 +50,7 @@ main {
 }
 
 h1 {
-  color: #333;
+  color: #f5f5f5;
   margin-bottom: 1.5em;
   font-size: 2em;
   grid-column: 1 / -1;
@@ -61,16 +63,24 @@ h1 {
 }
 
 .section {
-  background: white;
+  background: #2d2d2d;
   padding: 1.5em;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  border: 1px solid #3d3d3d;
   transition: all 0.3s ease;
 }
 
 .section:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
   transform: translateY(-2px);
+  border-color: #0d47a1;
+}
+
+.section h2 {
+  color: #64b5f6;
+  margin-top: 0;
+  margin-bottom: 1em;
 }
 
 .section.full-width {
@@ -93,7 +103,7 @@ h1 {
 }
 
 .section .table table thead th {
-  background: linear-gradient(135deg, #004aad 0%, #0066cc 100%);
+  background: linear-gradient(135deg, #0d47a1 0%, #1565c0 100%);
   color: white;
   padding: 1em;
   text-align: left;
@@ -113,8 +123,8 @@ h1 {
 
 .section .table table tbody td {
   padding: 1em;
-  border-bottom: 1px solid #e8e8e8;
-  color: #444;
+  border-bottom: 1px solid #3d3d3d;
+  color: #e0e0e0;
 }
 
 .section .table table tbody tr:last-child td {
@@ -122,13 +132,13 @@ h1 {
 }
 
 .section .table table tbody tr:nth-child(even) {
-  background: #fafafa;
+  background: #252525;
 }
 
 .section .table table tbody tr:hover {
-  background: #e8f0ff;
+  background: #1e3a5f;
   transform: scale(1.01);
-  box-shadow: 0 2px 8px rgba(0, 74, 173, 0.1);
+  box-shadow: 0 2px 8px rgba(13, 71, 161, 0.3);
   transition: all 0.2s ease;
 }
 
