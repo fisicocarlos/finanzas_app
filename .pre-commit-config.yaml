@@ -1,10 +1,22 @@
 repos:
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  # Ruff version.
-  rev: v0.14.3
+  rev: v0.14.7
   hooks:
-    # Run the linter.
     - id: ruff-check
       args: [ --fix ]
-    # Run the formatter.
     - id: ruff-format
+
+- repo: https://github.com/pre-commit/mirrors-prettier
+  rev: v4.0.0-alpha.8
+  hooks:
+    - id: prettier
+      types_or: [css, javascript, json]
+      args: ['--write']
+
+- repo: https://github.com/Riverside-Healthcare/djLint
+  rev: v1.36.4
+  hooks:
+    - id: djlint
+      name: djlint-jinja
+      args: ["--reformat"]
+      files: "\\.(html)$"

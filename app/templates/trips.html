@@ -1,12 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Gastos por viaje</h1>
-
-<div class="section">
-    <h2>Últimos viajes</h2>
-    <div class="table">
-        {{ trips_table_html | safe }}
+    <h1>Gastos por viaje</h1>
+    <div class="section">
+        <h2>Últimos viajes</h2>
+        <div class="table">{{ trips_table_html | safe }}</div>
     </div>
-</div>
-
 {% endblock %}

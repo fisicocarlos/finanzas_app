@@ -1,6 +1,7 @@
 @font-face {
   font-family: "SauceCodeProNF";
-  src: url("../fonts/SourceCodePro/SauceCodeProNerdFont-Regular.ttf") format("truetype");
+  src: url("../fonts/SourceCodePro/SauceCodeProNerdFont-Regular.ttf")
+    format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -141,7 +142,6 @@ h1 {
   box-shadow: 0 2px 8px rgba(13, 71, 161, 0.3);
   transition: all 0.2s ease;
 }
-
 
 @media (max-width: 968px) {
   .dashboard-grid {

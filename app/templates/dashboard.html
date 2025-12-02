@@ -1,40 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-
-<h1>Resumen general</h1>
-
-<div class="dashboard-grid">
-
-    <div class="section">
-        <h2>Balance Últimos meses</h2>
-        <div class="table">
-            {{ balance_per_month_table | safe }}
+    <h1>Resumen general</h1>
+    <div class="dashboard-grid">
+        <div class="section">
+            <h2>Balance Últimos meses</h2>
+            <div class="table">{{ balance_per_month_table | safe }}</div>
+        </div>
+        <div class="section">
+            <h2>Últimos movimientos</h2>
+            <div class="table">{{ last_movements_table | safe }}</div>
+        </div>
+        <div class="section full-width">
+            <h2>Movimientos por categoría</h2>
+            <div class="plot">{{ bar_plot_per_categories_html | safe }}</div>
+        </div>
+        <div class="section">
+            <h2>Gastos por categoría</h2>
+            <div class="plot">{{ pie_plot_per_categories_html | safe }}</div>
         </div>
     </div>
-
-    <div class="section">
-        <h2>Últimos movimientos</h2>
-        <div class="table">
-            {{ last_movements_table | safe }}
-        </div>
-    </div>
-
-    <div class="section full-width">
-        <h2>Movimientos por categoría</h2>
-        <div class="plot">
-            {{ bar_plot_per_categories_html | safe }}
-        </div>
-    </div>
-
-    <div class="section">
-        <h2>Gastos por categoría</h2>
-        <div class="plot">
-            {{ pie_plot_per_categories_html | safe }}
-        </div>
-    </div>
-
-</div>
-
-
-
 {% endblock %}
