@@ -42,7 +42,37 @@ nav a:hover {
 }
 
 main {
-    margin: 5em auto 2em auto; 
-    max-width: 1200px;
-    padding: 0 2em;
+  margin: 5em auto 2em auto;
+  max-width: 1400px;
+  padding: 0 2em;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 1.5em;
+  font-size: 2em;
+  grid-column: 1 / -1;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2em;
+}
+
+.section {
+  background: white;
+  padding: 1.5em;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.section.full-width {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 968px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
 }
