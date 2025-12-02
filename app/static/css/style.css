@@ -78,9 +78,58 @@ h1 {
 }
 
 .section .table {
-    display: flex;
-    justify-content: center;
-    overflow-x: auto;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.section .table table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.95em;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.section .table table thead th {
+  background: linear-gradient(135deg, #004aad 0%, #0066cc 100%);
+  color: white;
+  padding: 1em;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85em;
+  letter-spacing: 0.5px;
+}
+
+.section .table table thead th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.section .table table thead th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.section .table table tbody td {
+  padding: 1em;
+  border-bottom: 1px solid #e8e8e8;
+  color: #444;
+}
+
+.section .table table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.section .table table tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.section .table table tbody tr:hover {
+  background: #e8f0ff;
+  transform: scale(1.01);
+  box-shadow: 0 2px 8px rgba(0, 74, 173, 0.1);
+  transition: all 0.2s ease;
 }
 
 
