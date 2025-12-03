@@ -13,3 +13,5 @@ python-dotenv
 ruff
 psycopg[binary]
 psycopg
+flask-sqlalchemy
+sqlalchemy
