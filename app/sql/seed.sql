@@ -40,7 +40,9 @@ FROM
 			('Música', 'income', '#38A3A5', '', ''),
 			('Repaso', 'income', '#57CC99', '', ''),
 			('Otros ingresos', 'income', '#80ED99', '', ''),
-			('Otros gastos', 'income', '#34A0A4', '', '')
+			('Otros gastos', 'income', '#34A0A4', '', ''),
+			('Ocio', 'expense', '#7a5c1ada', '', '󱁖'),
+			('Salud', 'expense', '#f399d8da', '', ''),
 	) AS V (NAME, TYPE_NAME, COLOR, DESCRIPTION, ICON_CHAR)
 	JOIN TYPES T ON T.NAME = V.TYPE_NAME
 ON CONFLICT (NAME) DO UPDATE

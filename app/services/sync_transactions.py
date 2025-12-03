@@ -57,6 +57,7 @@ def sync_transactions():
     df["trip_id"] = df.merge(trips, how="left", left_on="trip", right_on="name")[
         "id"
     ].astype("Int64")
+    # TODO catch error when missing category
     df["category_id"] = df.merge(
         categories, how="left", left_on="category", right_on="name"
     )["id"].astype("int")
