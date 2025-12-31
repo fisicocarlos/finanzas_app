@@ -2,7 +2,7 @@ import pandas as pd
 from flask import Blueprint, render_template
 
 from app import db
-from app.data.plots import bar_plot_per_categories, pie_plot_per_categories
+from app.components.charts import bar_plot_per_categories, pie_plot_per_categories
 from app.data.processor import balance_per_month, last_movements
 from app.models.categories import Category
 from app.models.transactions import Transaction
