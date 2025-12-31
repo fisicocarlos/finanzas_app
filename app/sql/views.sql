@@ -1,0 +1,19 @@
+CREATE OR REPLACE VIEW v_transactions_expanded AS
+    SELECT
+        T.DATE,
+        T.DESCRIPTION,
+        TY.NAME AS TYPE,
+        TY.ID AS TYPE_ID,
+        C.NAME AS CATEGORY,
+        C.ID AS CATEGORY_ID,
+        T.AMOUNT,
+        TR.NAME AS TRIP,
+        TR.ID AS TRIP_ID,
+        T.NOTES
+    FROM
+        TRANSACTIONS T
+        LEFT JOIN TYPES TY ON T.TYPE_ID = TY.ID
+        LEFT JOIN CATEGORIES C ON T.CATEGORY_ID = C.ID
+        LEFT JOIN TRIPS TR ON T.TRIP_ID = TR.ID
+    ORDER BY
+        T.DATE DESC;
