@@ -71,7 +71,7 @@ def amounts_per_month_and_category(df):
     return amounts
 
 
-def trips():
+def total_amount_per_trip():
     query = (
         db.session.query(
             Trip.name.label("trip_name"),
@@ -85,31 +85,14 @@ def trips():
     )
     return pd.read_sql(
         query.statement, db.engine, parse_dates=["date_start", "date_end"]
-    ).rename(
-        columns={
-            "trip_name": "Nombre",
-            "date_start": "Inicio",
-            "date_end": "Fin",
-            "total_amount": "Total gastado",
-        }
     )
 
 
-def categories():
+def all_categories():
     query = db.session.query(
         Category.name.label("category_name"),
         Category.color,
         Category.icon_path,
         Category.icon_char,
     ).order_by(Category.name)
-    return (
-        pd.read_sql(query.statement, db.engine)
-        .rename(
-            columns={
-                "category_name": "Categoría",
-            }
-        )
-        .style.apply(
-            lambda row: [f"background-color: {row['color']}"] * len(row), axis=1
-        )
-    )
+    return pd.read_sql(query.statement, db.engine)
