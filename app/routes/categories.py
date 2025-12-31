@@ -2,7 +2,6 @@ from flask import Blueprint, render_template
 
 from app.components.tables import categories_table
 
-
 bp = Blueprint("categorias", __name__, url_prefix="/categorias")
 
 

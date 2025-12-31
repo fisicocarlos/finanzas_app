@@ -1,9 +1,10 @@
+from sqlalchemy import Date, DateTime, ForeignKey, Numeric, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import Text, Date, DateTime, Numeric, ForeignKey, func
+
 from app.models.base import Base
-from app.models.types import Type
 from app.models.categories import Category
 from app.models.trips import Trip
+from app.models.types import Type
 
 
 class Transaction(Base):
