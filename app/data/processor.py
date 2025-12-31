@@ -3,9 +3,7 @@ from sqlalchemy import func
 
 from app import db
 from app.config.config import TRANSLATIONS
-from app.models.categories import Category
-from app.models.transactions import Transaction
-from app.models.trips import Trip
+from app.models import Category, Transaction, Trip
 
 
 def grouped_movements(df):
