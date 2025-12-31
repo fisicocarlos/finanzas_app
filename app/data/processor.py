@@ -71,7 +71,7 @@ def amounts_per_month_and_category(df):
     return amounts
 
 
-def trips_table():
+def trips():
     query = (
         db.session.query(
             Trip.name.label("trip_name"),
@@ -95,7 +95,7 @@ def trips_table():
     )
 
 
-def categories_table():
+def categories():
     query = db.session.query(
         Category.name.label("category_name"),
         Category.color,
@@ -112,4 +112,4 @@ def categories_table():
         .style.apply(
             lambda row: [f"background-color: {row['color']}"] * len(row), axis=1
         )
-    ).to_html()
+    )

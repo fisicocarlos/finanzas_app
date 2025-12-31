@@ -3,7 +3,7 @@ from flask import Blueprint, render_template
 
 from app import db
 from app.components.charts import bar_plot_per_categories, pie_plot_per_categories
-from app.data.processor import balance_per_month, last_movements
+from app.components.tables import balance_per_month_table, last_movements_table
 from app.models.categories import Category
 from app.models.transactions import Transaction
 from app.models.trips import Trip
@@ -33,8 +33,8 @@ def index():
     )
     df = pd.read_sql(query.statement, db.engine, parse_dates=["date"])
 
-    balance_per_month_table = balance_per_month(df).to_html(index_names=False)
-    last_movements_table = last_movements(df, 5).to_html(index=False)
+    #    balance_per_month_table = balance_per_month_table(df)
+    #    last_movements_table = last_movements(df, 5).to_html(index=False)
     bar_plot_per_categories_html = bar_plot_per_categories(df).to_html(
         full_html=False, include_plotlyjs="cdn"
     )
@@ -45,8 +45,8 @@ def index():
     return render_template(
         "dashboard.html",
         title="Resumen general",
-        balance_per_month_table=balance_per_month_table,
-        last_movements_table=last_movements_table,
+        balance_per_month_table=balance_per_month_table(df),
+        last_movements_table=last_movements_table(df, 5),
         bar_plot_per_categories_html=bar_plot_per_categories_html,
         pie_plot_per_categories_html=pie_plot_per_categories_html,
     )
