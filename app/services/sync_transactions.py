@@ -60,7 +60,7 @@ def sync_transactions():
     # TODO catch error when missing category
     df["category_id"] = df.merge(
         categories, how="left", left_on="category", right_on="name"
-    )["id"].astype("int")
+    )["id"].astype("Int64")
     df["type_id"] = df.merge(types, how="left", left_on="type", right_on="name")["id"]
     if logger.isEnabledFor(logging.DEBUG):
         missing_categories = df.loc[df["category_id"].isna(), "category"].unique()
